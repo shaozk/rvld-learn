@@ -1,0 +1,9 @@
+# folder
+out/
+
+# file
+*.o
+*.out
+
+# rvld files
+rvld-learn
