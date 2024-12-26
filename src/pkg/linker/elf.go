@@ -4,10 +4,12 @@ package linker
 
 import (
 	"unsafe"
+	"bytes"
 )
 
 const EhdrSize = int(unsafe.Sizeof(Ehdr{}))
 const ShdrSize = int(unsafe.Sizeof(Shdr{}))
+const SymSize = int(unsafe.Sizeof(Sym{}))
 
 // ELF头部
 type Ehdr struct {
@@ -39,4 +41,19 @@ type Shdr struct {
 	Info      uint32		// 一些区段相关的信息
 	AddrAlign uint64		// 移动区域的对齐粒度
 	EntSize   uint64		// 若该区段是一张表，表示每一个表项的大小
+}
+
+// 符号表
+type Sym struct {
+	Name  uint32
+	Info  uint8
+	Other uint8
+	Shndx uint16
+	Val   uint64
+	Size  uint64
+}
+
+func ElfGetName(strTab []byte, offset uint32) string {
+	length := uint32(bytes.Index(strTab[offset:], []byte{0}))
+	return string(strTab[offset : offset+length])	
 }

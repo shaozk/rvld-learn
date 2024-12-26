@@ -9,18 +9,20 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 2{
+	if len(os.Args) < 2 {
 		utils.Fatal("Wrong args")
 	}
 	
 	filename := os.Args[1]
 	file := linker.MustNewFile(filename)
-	inputfile := linker.NewInputFile(file)
+	objFile := linker.NewObjectFile(file)
+	objFile.Parse()
+	utils.Assert(len(objFile.ElfSections) == 11)
+	utils.Assert(objFile.FirstGlobal ==  10)
+	utils.Assert(len(objFile.ElfSyms) == 12)
 	
-	for _, str := range inputfile.ElfSections {
-		println(str.Name)
-	}	
-	utils.Assert(len(inputfile.ElfSections) == 11)
-	
+	for _, sym := range objFile.ElfSyms {
+		println(linker.ElfGetName(objFile.SymbolStrtab, sym.Name))
+	}
 
 }
