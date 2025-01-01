@@ -6,7 +6,7 @@ result=out/tests/$test_name
 
 mkdir -p "$result"
 
-cat <<EOF | riscv64-linux-gnu-gcc -o "$result"/a.o -c -xc -
+cat <<EOF | $CC -o "$result"/a.o -c -xc -
 #include <stdio.h>
 
 int main() {
@@ -15,4 +15,4 @@ int main() {
 }
 EOF
 
-./rvld-learn "$result"/a.o
+$CC -B. -static "$result"/a.o -o "$result"/out
