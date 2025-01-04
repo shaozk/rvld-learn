@@ -3,11 +3,12 @@ package linker
 type ContextArgs struct {
 	Output 			string
 	Emulation 		MachineType
-	LibratyPaths 	[]string
+	LibraryPaths 	[]string
 }
 
 type Context struct {
-	Args 		ContextArgs
+	Args 	ContextArgs
+	Objs	[]*ObjectFile
 }
 
 func NewContext() *Context {

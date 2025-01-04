@@ -34,7 +34,13 @@ func main() {
 		utils.Fatal("unknown emulation type")
 	}
 
-	fmt.Printf("%v\n", remaining)
+	linker.ReadInputFiles(ctx, remaining)
+
+	println(len(ctx.Objs))
+
+	for _, obj := range ctx.Objs {
+		println(obj.File.Name)
+	}
 
 }
 
@@ -101,7 +107,7 @@ func parseArgs(ctx *linker.Context) []string {
 				utils.Fatal(fmt.Sprintf("unknow -m argument: %s", arg))
 			}
 		} else if readArg("L") {
-			ctx.Args.LibratyPaths = append(ctx.Args.LibratyPaths, arg)
+			ctx.Args.LibraryPaths = append(ctx.Args.LibraryPaths, arg)
 		} else if readArg("l") {
 			remaining = append(remaining, "-l" + arg)
 		} else if readArg("sysroot") ||

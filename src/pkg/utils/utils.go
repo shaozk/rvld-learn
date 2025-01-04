@@ -8,6 +8,7 @@ import (
 	"os"
 	"bytes"
 	"encoding/binary"
+	"strings"
 )
 
 // 致命错误
@@ -39,3 +40,10 @@ func Assert(condition bool) {
 	}
 }
 
+func RemovePrefix(s, prefix string) (string, bool) {
+	if strings.HasPrefix(s, prefix) {
+		s = strings.TrimPrefix(s, prefix)
+		return s, true
+	}
+	return s, false
+}
